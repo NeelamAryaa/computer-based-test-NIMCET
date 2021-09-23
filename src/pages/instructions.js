@@ -42,7 +42,7 @@ class Instructions extends Component {
         </nav>
         <div className="ibpsInstructions py-3">
           <div className="english_Instructions">
-            <p className="underline">
+            <p className=" px-3">
               <b>Please read the instructions carefully</b>
             </p>
             <h3 className="text-start px-3 fs-5">A) General Instructions</h3>

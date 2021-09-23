@@ -1,9 +1,9 @@
 import React, { Fragment } from "react";
-import Card from "./card";
-import NavBar from "./navbar";
+import Card from "../components/card";
+import NavBar from "../components/navbar";
 // const screenfull = require("screenfull");
 
-const MainContent = () => {
+const HomePage = () => {
   // useEffect(() => {
   //   if (screenfull.isEnabled) {
   //     screenfull.request();
@@ -22,4 +22,4 @@ const MainContent = () => {
   );
 };
 
-export default MainContent;
+export default HomePage;
