@@ -2,23 +2,21 @@ import React, { Component } from "react";
 
 class QuesScreenLeftPanel extends Component {
   state = {
-    checkedOption: -1,
+    active: false,
   };
 
   onChangeOption = (idx) => {
-    this.setState({
-      checkedOption: idx,
-    });
+    this.props.updateCheckedOption(idx);
   };
 
   clearResponse = () => {
-    this.setState({ checkedOption: -1 });
+    this.props.updateCheckedOption(-1);
     this.props.clearResponse();
   };
 
   onClickSaveAndNext = () => {
-    this.setState({ checkedOption: -1 });
-    this.props.SetAnswer(this.state.checkedOption);
+    this.props.updateCheckedOption(-1);
+    this.props.SetAnswer(this.props.checkedOption);
     this.props.onClickSaveAndNext();
   };
 
@@ -26,13 +24,71 @@ class QuesScreenLeftPanel extends Component {
     return (
       <div className="col-9 px-0">
         <div className=" mx-0">
+          {/*<div
+            class="btn-group"
+            role="group"
+            aria-label="Basic radio toggle button group"
+          >
+            <input
+              type="radio"
+              class="btn-check"
+              name="btnradio"
+              id="btnradio1"
+              autocomplete="off"
+            />
+            <label
+              class="btn btn-outline-primary border-0 fs-5 rounded"
+              for="btnradio1"
+            >
+              Mathematics
+            </label>
+
+            <input
+              type="radio"
+              class="btn-check"
+              name="btnradio"
+              id="btnradio2"
+              autocomplete="off"
+            />
+            <label
+              class="btn btn-outline-primary border-0 fs-5 rounded"
+              for="btnradio2"
+            >
+              Analitical Reasoning
+            </label>
+
+            <input
+              type="radio"
+              class="btn-check"
+              name="btnradio"
+              id="btnradio3"
+              autocomplete="off"
+            />
+            <label
+              class="btn btn-outline-primary border-0 fs-5 rounded"
+              for="btnradio3"
+            >
+              Computer
+            </label>
+            <input
+              type="radio"
+              class="btn-check"
+              name="btnradio"
+              id="btnradio4"
+              autocomplete="off"
+            />
+            <label
+              class="btn btn-outline-primary border-0 fs-5 rounded"
+              for="btnradio4"
+            >
+              English
+            </label>
+          </div>*/}
           <div
             className="row w-75 text-primary text-center"
             style={{ fontSize: "16px" }}
           >
-            <button type="button" className="col btn btn-info text-white">
-              Mathematics
-            </button>
+            <div className="col text-info bg-dark">Mathematics</div>
             <div className="col text-info">Analitical Reasoning</div>
             <div className="col text-info">Computer</div>
             <div className="col text-info">English</div>
@@ -70,8 +126,10 @@ class QuesScreenLeftPanel extends Component {
                     id={idx}
                     onChange={() => this.onChangeOption(idx)}
                     checked={
-                      idx === this.state.checkedOption ||
-                      idx === this.props.answerArray[this.props.currentIndex]
+                      this.props.checkedOption !== -1
+                        ? idx === this.props.checkedOption
+                        : idx ===
+                          this.props.answerArray[this.props.currentIndex]
                     }
                   />
                   <label className="form-check-label" for={idx}>
@@ -106,9 +164,8 @@ class QuesScreenLeftPanel extends Component {
             {
               <button
                 type="button"
-                className={`btn btn-success ${
-                  this.props.currentIndex === 6 ? "disabled" : null
-                } `}
+                className="btn btn-success
+                "
                 onClick={this.onClickSaveAndNext}
               >
                 Save and Next

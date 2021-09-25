@@ -13,6 +13,14 @@ import {
 } from "../redux/question/question.actions";
 
 class QuestionsScreen extends Component {
+  state = {
+    checkedOption: -1,
+  };
+
+  updateCheckedOption = (value) => {
+    this.setState({ checkedOption: value });
+  };
+
   onClickSaveAndNext = () => {
     this.props.NextQuestion();
   };
@@ -47,10 +55,13 @@ class QuestionsScreen extends Component {
             clearResponse={this.clearResponse}
             onClickSaveAndNext={this.onClickSaveAndNext}
             SetAnswer={this.props.SetAnswer}
+            updateCheckedOption={this.updateCheckedOption}
+            checkedOption={this.state.checkedOption}
           />
           <QuesScreenRightPanel
             questions={this.props.questions}
             onChangeQues={this.onChangeQues}
+            updateCheckedOption={this.updateCheckedOption}
           />
         </div>
       </Fragment>

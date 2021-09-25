@@ -3,7 +3,7 @@ import {
   ANSWER,
   NEXT_QUESTION,
   UNCHECKED,
-  MARK_FOR_REVIEW,
+  UPDATE_QUES_ARRAY,
   CHANGE_QUESTION,
   // COUNT,
 } from "./question.types";
@@ -54,7 +54,7 @@ export const MarkForReview = () => {
     const ques = [...questions];
     ques[currentIndex].isReviewed = true;
 
-    dispatch({ type: MARK_FOR_REVIEW, payload: ques });
+    dispatch({ type: UPDATE_QUES_ARRAY, payload: ques });
   };
 };
 
@@ -63,7 +63,7 @@ export const ChangeQuestion = (idx) => {
     const question = [...getState().index.questions];
     question[idx].isVisited = true;
 
-    dispatch({ type: MARK_FOR_REVIEW, payload: question });
+    dispatch({ type: UPDATE_QUES_ARRAY, payload: question });
     dispatch({ type: CHANGE_QUESTION, payload: idx });
   };
 };

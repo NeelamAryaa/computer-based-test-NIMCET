@@ -3,7 +3,7 @@ import {
   ANSWER,
   NEXT_QUESTION,
   UNCHECKED,
-  MARK_FOR_REVIEW,
+  UPDATE_QUES_ARRAY,
   CHANGE_QUESTION,
   // COUNT,
 } from "./question.types";
@@ -94,7 +94,7 @@ const reducer = (state = INITIAL_STATE, action) => {
         answerArray: action.payload.ans,
       };
 
-    case MARK_FOR_REVIEW:
+    case UPDATE_QUES_ARRAY:
       return {
         ...state,
         questions: action.payload,
