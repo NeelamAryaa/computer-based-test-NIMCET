@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 import QuesScreenLeftPanel from "../components/ques-screen-left-panel";
 import QuesScreenRightPanel from "../components/ques-screen-right-panel";
-// import { Link } from "react-router-dom";
 import "../App.css";
 import { connect } from "react-redux";
 import {
@@ -10,6 +9,7 @@ import {
   Unchecked,
   MarkForReview,
   ChangeQuestion,
+  IsVisited,
 } from "../redux/question/question.actions";
 
 class QuestionsScreen extends Component {
@@ -22,6 +22,8 @@ class QuestionsScreen extends Component {
   };
 
   onClickSaveAndNext = () => {
+    this.setState({ checkedOption: -1 });
+
     this.props.NextQuestion();
   };
 
@@ -35,8 +37,6 @@ class QuestionsScreen extends Component {
   };
 
   render() {
-    const currentQuestion = this.props.questions[this.props.currentIndex];
-
     return (
       <Fragment>
         {/*<nav
@@ -48,7 +48,7 @@ class QuestionsScreen extends Component {
         </nav>*/}
         <div className="row  mx-0">
           <QuesScreenLeftPanel
-            currentQuestion={currentQuestion}
+            questions={this.props.questions}
             answerArray={this.props.answerArray}
             currentIndex={this.props.currentIndex}
             MarkForReview={this.props.MarkForReview}
@@ -57,9 +57,12 @@ class QuestionsScreen extends Component {
             SetAnswer={this.props.SetAnswer}
             updateCheckedOption={this.updateCheckedOption}
             checkedOption={this.state.checkedOption}
+            IsVisited={this.props.IsVisited}
+            NextQuestion={this.props.NextQuestion}
           />
           <QuesScreenRightPanel
             questions={this.props.questions}
+            currentSection={this.props.currentSection}
             onChangeQues={this.onChangeQues}
             updateCheckedOption={this.updateCheckedOption}
           />
@@ -74,6 +77,7 @@ const mapStateToProps = (state) => {
     currentIndex: state.index.currentIndex,
     questions: state.index.questions,
     answerArray: state.index.answerArray,
+    currentSection: state.index.currentSection,
   };
 };
 
@@ -84,6 +88,7 @@ const mapDispatchToprops = (dispatch) => {
     Unchecked: () => dispatch(Unchecked()),
     MarkForReview: () => dispatch(MarkForReview()),
     ChangeQuestion: (idx) => dispatch(ChangeQuestion(idx)),
+    IsVisited: () => dispatch(IsVisited()),
   };
 };
 

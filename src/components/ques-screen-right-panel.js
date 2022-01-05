@@ -22,8 +22,8 @@ const QuesScreenRightPanel = (props) => {
         />
 
         <div className="col border-start">
-          <div className="row">Name : Neelam</div>
-          <div className="row">Roll no.: 20218833</div>
+          <div className="row px-2">Name : Neelam</div>
+          <div className="row px-2">Roll no.: 20218833</div>
         </div>
       </div>
       <hr className="m-0" />
@@ -79,10 +79,10 @@ const QuesScreenRightPanel = (props) => {
 
       <hr className="m-0" />
       <div
-        className="px-3 fs-5 text-white"
+        className="px-3 fs-5 text-white text-capitalize"
         style={{ backgroundColor: "#29385c" }}
       >
-        Mathematics
+        {props.currentSection}
       </div>
       <hr className="m-0" />
       <div
@@ -90,19 +90,19 @@ const QuesScreenRightPanel = (props) => {
         style={{ height: "255px", background: "#63e7f23d" }}
       >
         <div className="row">
-          {props.questions.map((ques, idx) => (
+          {props.questions[props.currentSection].map((ques, idx) => (
             <div
               role="button"
               className={`col-2 border bg-secondary  text-white px-0 py-1 m-1 d-flex justify-content-center align-items-center 
                     ${
-                      props.questions[idx].isAnswered &&
-                      props.questions[idx].isReviewed
+                      props.questions[props.currentSection][idx].isAnswered &&
+                      props.questions[props.currentSection][idx].isReviewed
                         ? "bg-info"
-                        : props.questions[idx].isAnswered
+                        : props.questions[props.currentSection][idx].isAnswered
                         ? "bg-success"
-                        : props.questions[idx].isReviewed
+                        : props.questions[props.currentSection][idx].isReviewed
                         ? "bg-warning"
-                        : props.questions[idx].isVisited
+                        : props.questions[props.currentSection][idx].isVisited
                         ? "bg-danger"
                         : null
                     }

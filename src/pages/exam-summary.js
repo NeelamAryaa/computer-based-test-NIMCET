@@ -1,29 +1,30 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 class ExamSummary extends Component {
-  render() {
+  getCount = (sec) => {
     const ques = this.props.Questions;
-    let num_of_ans, num_of_notVisit, num_of_review;
-    num_of_ans = num_of_notVisit = num_of_review = 0;
-    console.log(ques);
+    let num_of_ans, num_of_visit, num_of_review;
+    num_of_ans = num_of_visit = num_of_review = 0;
 
-    ques.map((ques) => {
-      if (ques.isAnswered) {
+    ques[sec].forEach((question) => {
+      if (question.isAnswered) {
         num_of_ans++;
       }
-      if (!ques.isVisited) {
-        num_of_notVisit++;
-      }
-      if (ques.isReviewed) {
+      if (question.isReviewed) {
         num_of_review++;
       }
-      return { num_of_ans, num_of_notVisit };
+      if (question.isVisited) {
+        num_of_visit++;
+      }
     });
+    return { num_of_ans, num_of_visit, num_of_review };
+  };
 
+  render() {
     return (
-      <Fragment>
+      <div className="h-100">
         <nav
           className="navbar 
            py-0 px-3 text-white"
@@ -33,7 +34,7 @@ class ExamSummary extends Component {
         </nav>
         <div
           className="d-flex flex-column align-items-center px-5 "
-          style={{ height: "45vw" }}
+          style={{ height: "40vw" }}
         >
           <div className="h-25 d-flex align-items-end fs-3 py-3">
             Exam Summary
@@ -50,40 +51,27 @@ class ExamSummary extends Component {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">Mathematics</th>
-                <td>50</td>
-                <td>{num_of_ans}</td>
-                <td>10</td>
-                <td>{num_of_review}</td>
-                <td>{num_of_notVisit}</td>
-              </tr>
-              <tr>
-                <th scope="row">Analitical Reasoning</th>
-                <td>50</td>
-                <td>20</td>
-                <td>10</td>
-                <td>1</td>
-                <td>19</td>
-              </tr>
-              <tr>
-                <th scope="row">Computer</th>
-                <td>50</td>
-                <td>20</td>
-                <td>10</td>
-                <td>1</td>
-                <td>19</td>
-              </tr>
-              <tr>
-                <th scope="row">English</th>
-                <td>50</td>
-                <td>20</td>
-                <td>10</td>
-                <td>1</td>
-                <td>19</td>
-              </tr>
+              {Object.keys(this.props.Questions).map((key) => (
+                <tr>
+                  <th scope="row" className="text-capitalize">
+                    {key} {() => this.getCount(key)}
+                  </th>
+                  <td>{this.props.Questions[key].length}</td>
+                  <td>{this.getCount(key).num_of_ans}</td>
+                  <td>
+                    {this.props.Questions[key].length -
+                      this.getCount(key).num_of_ans}
+                  </td>
+                  <td>{this.getCount(key).num_of_review}</td>
+                  <td>
+                    {this.props.Questions[key].length -
+                      this.getCount(key).num_of_visit}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
+
           <div className="fs-4">Are you sure to submit your test?</div>
           <div className="m-2">
             <Link to="/score-screen">
@@ -96,7 +84,7 @@ class ExamSummary extends Component {
             </button>
           </div>
         </div>
-      </Fragment>
+      </div>
     );
   }
 }

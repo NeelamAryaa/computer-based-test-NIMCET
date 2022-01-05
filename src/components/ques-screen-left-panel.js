@@ -1,8 +1,17 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import {
+  UpdateCurrentSection,
+  UpdateCurrentIndex,
+} from "../redux/question/question.actions";
 
 class QuesScreenLeftPanel extends Component {
-  state = {
-    active: false,
+  fetchQuestion = (sec) => {
+    this.props.UpdateCurrentSection(sec);
+    this.props.UpdateCurrentIndex(0);
+
+    this.props.updateCheckedOption(-1);
+    this.props.IsVisited();
   };
 
   onChangeOption = (idx) => {
@@ -15,83 +24,81 @@ class QuesScreenLeftPanel extends Component {
   };
 
   onClickSaveAndNext = () => {
-    this.props.updateCheckedOption(-1);
     this.props.SetAnswer(this.props.checkedOption);
+    this.props.NextQuestion();
+
+    if (
+      this.props.questions[this.props.currentSection].length - 1 >
+      this.props.currentIndex
+    ) {
+      this.props.UpdateCurrentIndex(this.props.currentIndex + 1);
+      this.props.questions[this.props.currentSection][
+        this.props.currentIndex + 1
+      ].isVisited = true;
+    } else {
+      this.props.UpdateCurrentIndex(0);
+      const a =
+        Object.keys(this.props.questions).indexOf(this.props.currentSection) +
+        1;
+
+      if (a === Object.keys(this.props.questions).length) {
+        this.props.UpdateCurrentSection(Object.keys(this.props.questions)[0]);
+      } else {
+        this.props.UpdateCurrentSection(Object.keys(this.props.questions)[a]);
+        this.props.IsVisited();
+      }
+    }
+
     this.props.onClickSaveAndNext();
+    this.props.updateCheckedOption(-1);
+    console.log(this.props.currentSection);
+  };
+
+  getQuestion = () => {
+    if (
+      this.props.questions[this.props.currentSection].length - 1 >=
+      this.props.currentIndex
+    ) {
+      const ques =
+        this.props.questions[this.props.currentSection][this.props.currentIndex]
+          .question;
+
+      return ques;
+    } else {
+      const a =
+        Object.keys(this.props.questions).indexOf(this.props.currentSection) +
+        1;
+      if (a === Object.keys(this.props.questions).length) {
+        const a = 0;
+        this.props.UpdateCurrentSection(Object.keys(this.props.questions)[a]);
+        this.props.UpdateCurrentIndex(0);
+      } else {
+        this.props.UpdateCurrentSection(Object.keys(this.props.questions)[a]);
+        this.props.UpdateCurrentIndex(0);
+      }
+    }
   };
 
   render() {
     return (
       <div className="col-9 px-0">
         <div className=" mx-0">
-          {/*<div
-            class="btn-group"
-            role="group"
-            aria-label="Basic radio toggle button group"
-          >
-            <input
-              type="radio"
-              class="btn-check"
-              name="btnradio"
-              id="btnradio1"
-              autocomplete="off"
-            />
-            <label
-              class="btn btn-outline-primary border-0 fs-5 rounded"
-              for="btnradio1"
-            >
-              Mathematics
-            </label>
-
-            <input
-              type="radio"
-              class="btn-check"
-              name="btnradio"
-              id="btnradio2"
-              autocomplete="off"
-            />
-            <label
-              class="btn btn-outline-primary border-0 fs-5 rounded"
-              for="btnradio2"
-            >
-              Analitical Reasoning
-            </label>
-
-            <input
-              type="radio"
-              class="btn-check"
-              name="btnradio"
-              id="btnradio3"
-              autocomplete="off"
-            />
-            <label
-              class="btn btn-outline-primary border-0 fs-5 rounded"
-              for="btnradio3"
-            >
-              Computer
-            </label>
-            <input
-              type="radio"
-              class="btn-check"
-              name="btnradio"
-              id="btnradio4"
-              autocomplete="off"
-            />
-            <label
-              class="btn btn-outline-primary border-0 fs-5 rounded"
-              for="btnradio4"
-            >
-              English
-            </label>
-          </div>*/}
           <div
-            className="row w-75 text-primary text-center"
-            style={{ fontSize: "16px" }}
+            className="row fs-5 ms-0 text-primary text-center"
+            style={{ width: "73vw" }}
           >
-            <div className="col text-info bg-dark">Mathematics</div>
-            <div className="col text-info">Analitical Reasoning</div>
-            <div className="col text-info">Computer</div>
-            <div className="col text-info">English</div>
+            {Object.keys(this.props.questions).map((section) => (
+              <div
+                className={`btn col rounded-pill text-capitalize cursor-pointer fs-5 ${
+                  section === this.props.currentSection
+                    ? "bg-primary text-white"
+                    : "text-primary "
+                }`}
+                onClick={() => this.fetchQuestion(section)}
+              >
+                {section}
+              </div>
+            ))}
           </div>
         </div>
         <hr className="m-0" />
@@ -101,47 +108,52 @@ class QuesScreenLeftPanel extends Component {
         </div>
         <hr className="m-0" />
         <div
-          className="col-4 px-3 fs-4 rounded  text-white"
-          style={{ backgroundColor: "#29385c" }}
+          className="px-5 fs-4 rounded-pill text-white text-capitalize"
+          style={{ backgroundColor: "#29385c", width: "fit-content" }}
         >
-          Mathematics
+          {this.props.currentSection}
         </div>
         <hr className="m-0" />
-        {this.props.currentQuestion !== undefined ? (
-          <div style={{ height: "73vh" }}>
+        <div className="p-2" style={{ height: "75vh" }}>
+          {this.props.currentSection && this.getQuestion() ? (
             <div>
-              <div
-                className=" text-white px-3"
-                style={{ backgroundColor: "#29385c" }}
-              >
-                Question no. - {this.props.currentIndex + 1}
-              </div>
-              <div className="px-3">{this.props.currentQuestion.question}</div>
-              {this.props.currentQuestion.option.map((opt, idx) => (
-                <div className="form-check mx-3" key={idx}>
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name="flexRadioDefault"
-                    id={idx}
-                    onChange={() => this.onChangeOption(idx)}
-                    checked={
-                      this.props.checkedOption !== -1
-                        ? idx === this.props.checkedOption
-                        : idx ===
-                          this.props.answerArray[this.props.currentIndex]
-                    }
-                  />
-                  <label className="form-check-label" for={idx}>
-                    {opt}
-                  </label>
-                </div>
-              ))}
+              <h5>Question - {this.props.currentIndex + 1}</h5>
+              <div className="">{this.getQuestion()}</div>
             </div>
+          ) : null}
+
+          <div>
+            {this.props.questions[this.props.currentSection].length - 1 >=
+            this.props.currentIndex
+              ? this.props.questions[this.props.currentSection][
+                  this.props.currentIndex
+                ].option.map((opt, idx) => (
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="flexRadioDefault"
+                      id="flexRadioDefault1"
+                      onChange={() => this.onChangeOption(idx)}
+                      checked={
+                        this.props.checkedOption !== -1
+                          ? idx === this.props.checkedOption
+                          : idx ===
+                            this.props.answerArray[
+                              Object.keys(this.props.questions).indexOf(
+                                this.props.currentSection
+                              )
+                            ][this.props.currentIndex]
+                      }
+                    />
+                    <label class="form-check-label" for="flexRadioDefault1">
+                      {opt}
+                    </label>
+                  </div>
+                ))
+              : null}
           </div>
-        ) : (
-          <div>{this.props.currentIndex}</div>
-        )}
+        </div>
 
         <div className="w-100 d-inline-flex justify-content-between">
           <div className="flex px-3 ">
@@ -178,4 +190,21 @@ class QuesScreenLeftPanel extends Component {
   }
 }
 
-export default QuesScreenLeftPanel;
+const mapStateToProps = (state) => {
+  return {
+    currentSection: state.index.currentSection,
+    currentIndex: state.index.currentIndex,
+  };
+};
+
+const mapDispatchToprops = (dispatch) => {
+  return {
+    UpdateCurrentSection: (sec) => dispatch(UpdateCurrentSection(sec)),
+    UpdateCurrentIndex: (value) => dispatch(UpdateCurrentIndex(value)),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToprops
+)(QuesScreenLeftPanel);
