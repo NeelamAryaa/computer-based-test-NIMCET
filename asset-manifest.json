@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/computer-based-test-NIMCET/static/css/main.aa48d7db.chunk.css",
+    "main.js": "/computer-based-test-NIMCET/static/js/main.1944bce7.chunk.js",
+    "main.js.map": "/computer-based-test-NIMCET/static/js/main.1944bce7.chunk.js.map",
+    "runtime-main.js": "/computer-based-test-NIMCET/static/js/runtime-main.522e3b07.js",
+    "runtime-main.js.map": "/computer-based-test-NIMCET/static/js/runtime-main.522e3b07.js.map",
+    "static/css/2.02e8d50b.chunk.css": "/computer-based-test-NIMCET/static/css/2.02e8d50b.chunk.css",
+    "static/js/2.207015ee.chunk.js": "/computer-based-test-NIMCET/static/js/2.207015ee.chunk.js",
+    "static/js/2.207015ee.chunk.js.map": "/computer-based-test-NIMCET/static/js/2.207015ee.chunk.js.map",
+    "static/js/3.f022f125.chunk.js": "/computer-based-test-NIMCET/static/js/3.f022f125.chunk.js",
+    "static/js/3.f022f125.chunk.js.map": "/computer-based-test-NIMCET/static/js/3.f022f125.chunk.js.map",
+    "index.html": "/computer-based-test-NIMCET/index.html",
+    "static/css/2.02e8d50b.chunk.css.map": "/computer-based-test-NIMCET/static/css/2.02e8d50b.chunk.css.map",
+    "static/css/main.aa48d7db.chunk.css.map": "/computer-based-test-NIMCET/static/css/main.aa48d7db.chunk.css.map",
+    "static/js/2.207015ee.chunk.js.LICENSE.txt": "/computer-based-test-NIMCET/static/js/2.207015ee.chunk.js.LICENSE.txt",
+    "static/media/font-awesome.css": "/computer-based-test-NIMCET/static/media/fontawesome-webfont.f691f37e.woff"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.522e3b07.js",
+    "static/css/2.02e8d50b.chunk.css",
+    "static/js/2.207015ee.chunk.js",
+    "static/css/main.aa48d7db.chunk.css",
+    "static/js/main.1944bce7.chunk.js"
+  ]
+}
