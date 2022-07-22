@@ -11,7 +11,7 @@ import ScoreScreen from "./pages/score-screen";
 
 function App() {
   return (
-    <Router>
+    <Router  basename="/computer-based-test-NIMCET" >
       <div className="App">
         <Switch>
           <Route path="/" component={HomePage} exact />
